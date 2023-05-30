@@ -25,6 +25,8 @@ void pngEn(uint16_t *imgData) {
   //uint16_t imgLine[WIDTH];
   unsigned char pTempLine[WIDTH * 4];
   long l;
+  char replyBuff[1024];
+  int readCount = 0;
 
   l = micros();
 
@@ -47,11 +49,38 @@ void pngEn(uint16_t *imgData) {
       //  Serial.write(*((unsigned char *)pngOut + x));
       size_t out_length;
       char *base64_data = base64_encode((unsigned char *)pngOut, iDataSize, &out_length);
-      tft.printf("base64 length %d\n",out_length);
-      for (int x = 0; x < out_length; x++)
-        Serial.write(*(base64_data + x));
+      tft.printf("base64 length %d\n", out_length);
       delay(3000);
+      tft.setCursor(10, 260);
+      tft.fillRect(0, 260, 480, 80, ILI9488_BLACK);
+      if (out_length != 0) {
+        for (int x = 0; x < out_length; x++)
+
+          Serial1.write(*(base64_data + x));
+
+        while (1) {
+          if (Serial1.available()) {
+            replyBuff[readCount] = Serial1.read();
+            if (replyBuff[readCount] == '\n') {
+              break;
+            }
+            readCount++;
+          }
+        }
+
+        for (int x = 0; x < readCount; x++)
+          tft.print(replyBuff[x]);
+      } else {
+        tft.print("Encoding error");
+      }
     }
+    delay(3000);
+    while (digitalRead(BUTTON_IN_PIN) == HIGH)
+      ;
+    delay(100);
+    while (digitalRead(BUTTON_IN_PIN) == LOW)
+      ;
+    delay(100);
   } else {
     Serial.println("Failed to create the file on the SD card!");
   }

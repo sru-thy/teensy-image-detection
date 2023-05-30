@@ -561,6 +561,7 @@ void wrSensorRegs8_8(const struct regval_list reglist[]) {
 
 void initcam(void) {
   Serial.begin(115200);
+  Serial1.begin(115200);
   pinMode(Dat0, INPUT);
   pinMode(Dat1, INPUT);
   pinMode(Dat2, INPUT);

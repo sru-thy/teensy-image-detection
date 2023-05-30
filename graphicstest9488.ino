@@ -28,6 +28,7 @@ int camAddr = -1;
 
 ILI9488_t3 tft = ILI9488_t3(&SPI, TFT_CS, TFT_DC, TFT_RST);
 
+
 void setup() {
   //SPISettings settingsA(16000000, MSBFIRST, SPI_MODE1);
   pinMode(BUTTON_IN_PIN, INPUT_PULLUP);
