@@ -56,7 +56,7 @@
 #endif
 
 /* Defines and variables */
-#define PNG_FILE_BUF_SIZE 2048
+#define PNG_FILE_BUF_SIZE 4096
 #define PNG_FILE_HIGHWATER ((PNG_FILE_BUF_SIZE * 3)/4)
 // Number of bytes to reserve for current and previous lines
 // Defaults to 640 32-bit pixels max width

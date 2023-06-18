@@ -33,7 +33,7 @@ void pngEn(uint16_t *imgData) {
   rc = png.open((uint8_t *)pngOut, sizeof(pngOut));
 
   if (rc == PNG_SUCCESS) {
-    rc = png.encodeBegin(WIDTH, HEIGHT, PNG_PIXEL_TRUECOLOR, 24, NULL, 3);
+    rc = png.encodeBegin(WIDTH, HEIGHT, PNG_PIXEL_TRUECOLOR, 24, NULL, 9);
     if (rc == PNG_SUCCESS) {
       for (int y = 0; y < HEIGHT && rc == PNG_SUCCESS; y++) {
         //imgData[y*width to y*width+width-1]

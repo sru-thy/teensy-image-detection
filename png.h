@@ -403,10 +403,22 @@ int PNG_addRGB565Line(PNGIMAGE *pImage, uint16_t *pRGB565, void *pTempLine, int 
   switch (pImage->ucPixelType) {
     case PNG_PIXEL_TRUECOLOR:
       for (int i = 0; i < pImage->iWidth; i++) {
+        int r, g, b;
+
         us = *s++;
+        r = (uint8_t)(((us >> 8) & 0xf8) | (us >> 13));          // red
+        g = (uint8_t)(((us >> 3) & 0xfc) | ((us >> 9) & 0x3));   // green
+        b = (uint8_t)(((us & 0x1f) << 3) | ((us & 0x1c) >> 2));  // blue
+        r = (uint8_t)((r + g * 2 + b) >> 2);
+        *d++ = r;          // red
+        *d++ = r;   // green
+        *d++ = r;  // blue
+                                                                    /*
+
         *d++ = (uint8_t)(((us >> 8) & 0xf8) | (us >> 13));          // red
         *d++ = (uint8_t)(((us >> 3) & 0xfc) | ((us >> 9) & 0x3));   // green
         *d++ = (uint8_t)(((us & 0x1f) << 3) | ((us & 0x1c) >> 2));  // blue
+        */
       }
       break;
     case PNG_PIXEL_GRAYSCALE:
@@ -479,7 +491,7 @@ int PNG_addRGB565Line(PNGIMAGE *pImage, uint16_t *pRGB565, void *pTempLine, int 
         Serial.print("Not enough memory1--");
         Serial.print(pImage->iHeaderSize + pImage->iCompressedSize + pImage->c_stream.total_out);
         Serial.print("--");
-         Serial.print(pImage->iBufferSize);
+        Serial.print(pImage->iBufferSize);
 
         return PNG_MEM_ERROR;
       }

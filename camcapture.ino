@@ -614,7 +614,7 @@ void camsetColor(void) {
 
 // Memory to hold the output file
 uint16_t imgData[240][320];
-
+//uint8_t bwimgData[240][320];
 
 static void captureImg(uint16_t wg, uint16_t hg) {
   uint16_t y, x;
@@ -662,13 +662,14 @@ static void captureImg(uint16_t wg, uint16_t hg) {
       d |= (digitalReadFast(Dat1) << 1);
       d |= digitalReadFast(Dat0);
       if (captureImage) {
-        // Draw the pixel value and store them in an array
+        
         imgData[xxx][yyy] = (d1 << 8) | d;
         xxx++;
       }
 
       // Update the screen with the captured image
       tft.drawPixel(xx, yy, (d1 << 8) | d);
+      //tft.drawPixel(xx, yy, d1);
 
       while (digitalReadFast(PCLK))
         ;  //wait for low
@@ -688,6 +689,7 @@ static void captureImg(uint16_t wg, uint16_t hg) {
     tft.useFrameBuffer(false);
     tft.print("Encoding..");
     pngEn((uint16_t *)imgData);
+ 
     tft.print("Done.");
     tft.useFrameBuffer(true);
   }
